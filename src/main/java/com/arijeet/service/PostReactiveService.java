@@ -3,6 +3,7 @@ package com.arijeet.service;
 import com.arijeet.dbmock.CommentsService;
 import com.arijeet.dbmock.PostInfoService;
 import com.arijeet.domain.Post;
+import com.arijeet.domain.PostInfo;
 import com.arijeet.exception.PostException;
 import com.arijeet.exception.NetworkException;
 import com.arijeet.exception.ServiceException;
@@ -14,6 +15,7 @@ import reactor.util.retry.Retry;
 import reactor.util.retry.RetryBackoffSpec;
 
 import java.time.Duration;
+import java.util.List;
 
 @AllArgsConstructor
 public class PostReactiveService {
@@ -21,6 +23,13 @@ public class PostReactiveService {
     private PostInfoService postInfoService;
     private CommentsService commentsService;
 
+    private Flux<PostInfo> updatePurchaseOrderDetail() {
+
+        var postInfoFlux =  postInfoService.retrievePostsFlux();
+        return postInfoFlux.collectList()
+                .flatMapMany(postInfos -> postInfoService.retrievePostsFlux(postInfos))
+                .onErrorMap(e -> new RuntimeException(e));
+    }
 
     /**
      * Sample method which shows a publisher(Mono/Flux) dependant on another publisher.

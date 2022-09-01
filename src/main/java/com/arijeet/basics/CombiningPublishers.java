@@ -27,6 +27,7 @@ public class CombiningPublishers {
     public Flux<String> concatWithMonos() {
         var abc = Mono.just("A");
         var def = Mono.just("D");
+
         return abc.concatWith(def).log();
     }
 

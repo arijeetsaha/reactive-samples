@@ -11,6 +11,15 @@ import static com.arijeet.util.CommonUtil.delay;
 
 public class PostInfoService {
 
+    public  Flux<PostInfo> retrievePostsFlux(List<PostInfo> postInfos){
+
+        var postInfos1 = List.of(new PostInfo(100l, "Batman Begins", 2005, List.of("Christian Bale", "Michael Cane"), LocalDate.parse("2005-06-15")),
+                new PostInfo(101L,"The Dark Knight", 2008, List.of("Christian Bale", "HeathLedger"), LocalDate.parse("2008-07-18")),
+                new PostInfo(102L,"Dark Knight Rises", 2008, List.of("Christian Bale", "Tom Hardy"), LocalDate.parse("2012-07-20")));
+
+        return Flux.fromIterable(postInfos1);
+    }
+
     public  Flux<PostInfo> retrievePostsFlux(){
 
         var postInfos = List.of(new PostInfo(100l, "Batman Begins", 2005, List.of("Christian Bale", "Michael Cane"), LocalDate.parse("2005-06-15")),
